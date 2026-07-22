@@ -18,6 +18,7 @@ vm_resourses = {
     core_fraction = 20
     disk_size     = 50
 }
+stoppable_vm = true
 
 # переменные пользователя
 username = "osho"

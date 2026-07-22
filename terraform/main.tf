@@ -37,9 +37,8 @@ data "yandex_compute_image" "ubuntu" {
 # --- ВМ --- #
 resource "yandex_compute_instance" "vm" {
   name           = var.vm_name
-  subnet_zones   = var.default_zone
-  subnet_ids     = [yandex_vpc_subnet.devops_a.id]
-  public_ip      = var.use_public_ip
+  hostname       = var.vm_name
+  zone           = var.default_zone
   platform_id    = "standard-v3"
   resources {
     cores         = var.vm_resourses["cores"]
@@ -52,6 +51,11 @@ resource "yandex_compute_instance" "vm" {
       type     = "network-hdd"
       size     = var.vm_resourses["disk_size"]
     }
+  }
+    scheduling_policy { preemptible = var.stoppable_vm }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.devops_a.id
+    nat       = var.use_public_ip
   }
 
   metadata = {

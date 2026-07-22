@@ -15,6 +15,7 @@ variable "vm_resourses" {
   description = "выделение ресурсов для ВМ"
   type        = map(number)
 }
+variable "stoppable_vm" { type = bool }
 
 # переменные пользователя
 variable "username" { type = string }
