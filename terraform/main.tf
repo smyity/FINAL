@@ -52,7 +52,7 @@ resource "yandex_compute_instance" "vm" {
       size     = var.vm_resourses["disk_size"]
     }
   }
-    scheduling_policy { preemptible = var.stoppable_vm }
+  scheduling_policy { preemptible = var.stoppable_vm }
   network_interface {
     subnet_id = yandex_vpc_subnet.devops_a.id
     nat       = var.use_public_ip
