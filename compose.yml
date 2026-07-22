@@ -1,0 +1,63 @@
+x-values: &auth
+  - CLICKHOUSE_PASSWORD=${clickhouse_password}
+  - CLICKHOUSE_USER=${clickhouse_username}
+
+services:
+  git:
+    image: gitlab/gitlab-ce:18.6.8-ce.0
+    container_name: final-gitlab
+    restart: always
+    hostname: ${server_ip}
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://${server_ip}'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2002
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2002:22'
+    volumes:
+      - ./gitlab/config:/etc/gitlab
+      - ./gitlab/logs:/var/log/gitlab
+      - ./gitlab/data:/var/opt/gitlab
+    shm_size: 512m # SharedMemorySize - объем памяти для работы контейнера
+    networks:
+      final_net:
+        ipv4_address: 10.10.10.2
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:latest
+    container_name: final-clickhouse-db
+    environment:
+      <<: *auth
+    volumes:
+      - volume-clickhouse:/var/lib/clickhouse
+    networks:
+      final_net:
+        ipv4_address: 10.10.10.3
+
+  monitor-app:
+    build: ./application
+    container_name: final-monitor-app
+    environment:
+      - SERVER_IP=${server_ip}
+      <<: *auth
+    ports:
+      - "1111:1111" # прием метрик от Windows
+      - "80:1112"   # сайт фронтенда
+    depends_on:
+      - clickhouse
+    networks:
+      final_net:
+        ipv4_address: 10.10.10.4
+
+volumes:
+  volume-clickhouse:
+  volume-monitor-app:
+networks:
+  final_net:
+    name: final-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.10.10.0/24

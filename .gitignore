@@ -1,0 +1,7 @@
+# игнорировать содержимое папки .terraform во всех поддиректориях
+**/.terraform/*
+.terraform*
+
+# защита состояния .tfstate files
+*.tfstate
+*.tfstate.*
