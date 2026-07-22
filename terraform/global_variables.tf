@@ -6,7 +6,7 @@ variable "vm_image_OS" { type = string }
 variable "name_vpc_network" { type = string }
 variable "name_default_vpc_subnet_zone" { type = string }
 variable "default_zone" { type = string }
-variable "default_zone_cidr_blocks" { list(string) }
+variable "default_zone_cidr_blocks" { type = list(string) }
 
 # переменные для ВМ
 variable "vm_name" { type = string }
