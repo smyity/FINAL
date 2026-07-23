@@ -1,6 +1,6 @@
 x-values: &auth
-  - CLICKHOUSE_PASSWORD=${clickhouse_password}
-  - CLICKHOUSE_USER=${clickhouse_username}
+  CLICKHOUSE_PASSWORD: ${clickhouse_password}
+  CLICKHOUSE_USER: ${clickhouse_username}
 
 services:
   git:
@@ -40,7 +40,7 @@ services:
     build: ./application
     container_name: final-monitor-app
     environment:
-      - SERVER_IP=${server_ip}
+      SERVER_IP: ${server_ip} # не использовать "-" для якорей! 
       <<: *auth
     ports:
       - "1111:1111" # прием метрик от Windows

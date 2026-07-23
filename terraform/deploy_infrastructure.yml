@@ -97,12 +97,15 @@
       ansible.builtin.git:
         repo: 'https://github.com/smyity/FINAL.git' # ссылка на git репозиторий
         dest: /opt/final_project                    # директория на сервере
+        mode: '0755'
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
         version: main                               # ветка
         force: true                                 # перезаписать локальные изменения, если они есть
       register: git_result                          # результат для отслеживания изменений
 
     - name: 13. Запуск Docker Compose проекта
       community.docker.docker_compose_v2:
-        project_src: /opt/final_project/FINAL # путь до compose.yml
+        project_src: /opt/final_project       # путь до compose.yml
         state: present
         pull: always                          # скачивать новые образы, если они обновились
