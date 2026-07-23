@@ -102,7 +102,14 @@
       register: git_result                          # результат для отслеживания изменений
       become: false
 
-    - name: 13. Запуск Docker Compose проекта
+    - name: 13. Изменение переменной в .env файле
+      ansible.builtin.lineinfile:
+        path: /opt/final_project/.env
+        regexp: '^server_ip='
+        line: "server_ip={{ ansible_default_ipv4.address }}"
+        state: present
+
+    - name: 14. Запуск Docker Compose проекта
       community.docker.docker_compose_v2:
         project_src: /opt/final_project       # путь до compose.yml
         state: present
