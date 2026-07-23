@@ -15,7 +15,7 @@ use_public_ip = true
 vm_resourses = {
     cores         = 4
     memory        = 10
-    core_fraction = 20
+    core_fraction = 50
     disk_size     = 50
 }
 stoppable_vm = true

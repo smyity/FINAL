@@ -80,7 +80,7 @@ resource "local_file" "inventory" {
 
   content  = <<-EOF
 [VM]
-target-vm ansible_host=${yandex_compute_instance.vm.network_interface[0].nat_ip_address} ansible_ssh_private_key_file=${var.path_ssh_key} ansible_ssh_common_args='-o StrictHostKeyChecking=no'
+target-vm ansible_host=${yandex_compute_instance.vm.network_interface[0].nat_ip_address} ansible_user=${var.username} ansible_ssh_private_key_file=${var.path_ssh_key} ansible_ssh_common_args="-o StrictHostKeyChecking=no"
 EOF
   depends_on = [ yandex_compute_instance.vm ]
 }
