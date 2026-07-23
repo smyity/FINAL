@@ -102,11 +102,17 @@
       register: git_result                          # результат для отслеживания изменений
       become: false
 
+    - name: Узнать внешний IP-адрес хоста
+      ansible.builtin.uri:
+        url: https://ifconfig.me/ip
+        return_content: true
+      register: host_public_ip
+
     - name: 13. Изменение переменной в .env файле
       ansible.builtin.lineinfile:
         path: /opt/final_project/.env
         regexp: '^server_ip='
-        line: "server_ip={{ ansible_default_ipv4.address }}"
+        line: "server_ip={{ host_public_ip.content | trim }}"
         state: present
 
     - name: 14. Запуск Docker Compose проекта

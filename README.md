@@ -154,3 +154,30 @@
     ├── main.tf
     └── terraform.tfvars          # вот здесь все переменные, которые нужно менять
 ```
+
+### Step by step
+
+1. Клонировать репозиторий проекта:
+
+   ```
+   git clone https://github.com/smyity/FINAL.git
+   ```
+
+2. Перейти в директорию terraform:
+
+   ```
+   cd terraform
+   ```
+
+3. В файле *terraform.tfvars* поменять значения переменных на свои.
+4. Сделать инициализацию:
+
+   ```
+   terraform init
+   ```
+5. Запустить:
+
+   ```
+   terraform apply
+   ```
+
