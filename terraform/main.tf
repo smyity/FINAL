@@ -98,7 +98,7 @@ resource "terraform_data" "ansible_bootstrap" {
         sleep 5
       done
       echo "SSH available! Run Ansible Playbook..."
-      ansible-playbook -i ./inventory.ini install_docker.yml
+      ansible-playbook -i ./inventory.ini deploy_infrastructure.yml
     EOT
   }
 }
