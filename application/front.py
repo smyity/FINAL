@@ -59,14 +59,6 @@ else:
     start_time = now - datetime.timedelta(days=365)
 
 
-try:
-    # отправление параметров фильтрации на бэкенд
-    params = {"start": start_time.isoformat(), "end": now.isoformat()}
-    response = requests.get(BACKEND_URL, params=params, timeout=3)
-    metrics_db = response.json() if response.status_code == 200 else {}
-except Exception:
-    metrics_db = {}
-
 metrics_db = {}
 if selected_computer:
     try:
@@ -79,7 +71,7 @@ if selected_computer:
         if response.status_code == 200:
             metrics_db = response.json()
     except Exception:
-        pass
+        st.error(f"Ошибка запроса истории: {e}")
 
 
 ### Кнопка скачивания exe файла ###

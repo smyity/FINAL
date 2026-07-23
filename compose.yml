@@ -35,6 +35,14 @@ services:
     networks:
       final_net:
         ipv4_address: 10.10.10.3
+        aliases:
+          - clickhouse
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8123/ping"]
+      interval: 5s     # Как часто проверять
+      timeout: 3s      # Время ожидания ответа
+      retries: 5       # Количество провалов до статуса unhealthy
+      start_period: 5s # Время на начальную инициализацию БД
 
   monitor-app:
     build: ./application
@@ -44,9 +52,10 @@ services:
       <<: *auth
     ports:
       - "1111:1111" # прием метрик от Windows
-      - "80:1112"   # сайт фронтенда
+      - "1112:1112"   # сайт фронтенда
     depends_on:
-      - clickhouse
+      clickhouse:
+        condition: service_healthy
     networks:
       final_net:
         ipv4_address: 10.10.10.4

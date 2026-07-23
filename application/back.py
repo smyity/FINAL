@@ -73,9 +73,9 @@ func main() {{
 	serverURL := "http://{SERVER_IP}:1111/api/metrics"
 
 	hostname, err := os.Hostname()
-	if err != nil {
+	if err != nil {{
 		hostname = "unknown_windows_pc"
-	}
+	}}
 
 	for {{
 		cpuPercentages, _ := cpu.Percent(time.Second, false)
@@ -88,6 +88,7 @@ func main() {{
 		dUsage, _ := disk.Usage("C:\\\\")
 
 		payload := Metrics{{
+            ComputerName: hostname,
 			CpuUsage:    cpuUsage,
 			MemoryUsage: vMem.UsedPercent,
 			DiskUsage:   dUsage.UsedPercent,
@@ -199,8 +200,8 @@ def get_history(
     try:
         client = get_clickhouse_client()
         try:
-            start_clean = datetime.datetime.fromisoformat(start).strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
-            end_clean = datetime.datetime.fromisoformat(end).strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+            start_clean = start.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
+            end_clean = end.strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]
         except Exception:
             start_clean = start.replace("T", " ").split("+")[0].split("Z")[0]
             end_clean = end.replace("T", " ").split("+")[0].split("Z")[0]
